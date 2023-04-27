@@ -40,3 +40,7 @@ O sistema de semáforos em zonas urbanas é útil pois ajuda a controlar o fluxo
 		//Ligar os semaforos
 		zoneType.syncSemaforos();
 ```
+## Screenshots
+
+![Log do sistema](https://i.imgur.com/eWFo17A.png)
+
