@@ -14,6 +14,7 @@ public class SemaforoEntity implements SemaforoInterface {
 	private Location semaforoLocation;
 	private SemaforoStatusInterface semaforoStatus;
 	private long nextChange;
+	private long initialChange;
 
 	private final long DELAY_CONFIG_SEMAFORO_ABERTO_PARA_ATENCAO = 20000;
 	private final long DELAY_CONFIG_SEMAFORO_ATENCAO_PARA_FECHADO = 20000;
@@ -24,6 +25,7 @@ public class SemaforoEntity implements SemaforoInterface {
 		this.semaforoStatus = new SemaforoStatus();
 		this.semaforoId = new SemaforosDAO().getInstance().getSemaforosCount()+1;
 		this.nextChange = System.currentTimeMillis();
+		this.initialChange = System.currentTimeMillis();
 	}
 	
 	// Construtor
@@ -52,6 +54,12 @@ public class SemaforoEntity implements SemaforoInterface {
 		updateStatus();
 	}
 	
+	//Retorna de 0 a 100% quanto falta para o semaforo avancar o sinal para o proximo sinal, esta formula pode ser usada para implementar em uma barra de progresso.
+	public double semaforoStatusChange(){
+		double actualTimeStamp = System.currentTimeMillis();
+		return 100 * (actualTimeStamp - initialChange) / (nextChange - initialChange);
+	}
+
 	// atualiza o status do semaforo (executar apenas uma vez que o sistema automaticamente faz a verificacao em intervalos de tempos)
 	public void updateStatus() {
 		String oldStatus = semaforoStatus.getActualStatusString();
@@ -60,6 +68,9 @@ public class SemaforoEntity implements SemaforoInterface {
 		long actualTimeStamp = System.currentTimeMillis();
 		if(nextChange > actualTimeStamp)
 			return;
+		
+		
+		initialChange = actualTimeStamp;
 		
 		switch(semaforoStatus.getStatus()) {
 			case SEMAFORO_STATUS_LOADING: case SEMAFORO_STATUS_FECHADO: {

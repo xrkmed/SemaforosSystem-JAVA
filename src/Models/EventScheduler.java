@@ -2,7 +2,6 @@ package Models;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.BiFunction;
 
 public class EventScheduler {
 	

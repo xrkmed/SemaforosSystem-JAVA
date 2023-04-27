@@ -9,5 +9,6 @@ public interface SemaforoInterface {
     public void disable(); // desabilitar o semaforo
     public void sync(); // sincroniza o semaforo
     public void updateStatus(); // atualizar o status do semaforo
+    public double semaforoStatusChange();
 
 }

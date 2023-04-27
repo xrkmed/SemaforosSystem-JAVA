@@ -9,7 +9,7 @@ public class ZonesUpdate {
 	//Essa classe serve para diluir as regioes em uma matriz para diminuir o uso da CPU conforme tenha muitas regioes.
 	
 	private final int ZONES_QUANTITY = 10; // quanto maior o valor, mais diluido vai ser
-	private final long ZONES_INTERVAL = 1000L; // quanto maior aqui, mais demorado vai ser para o sistema verificar os semaforos.
+	private final long ZONES_INTERVAL = 250L; // quanto maior aqui, mais demorado vai ser para o sistema verificar os semaforos.
 	private HashMap<Integer, ArrayList<Zones>> zonesMatrix = new HashMap<>();
 	
 	//Singleton class
@@ -24,14 +24,13 @@ public class ZonesUpdate {
 	}
 	
 	public ZonesUpdate() {
-		//TODO
+		
 	}
 	
 	public void onThink(int index) {
 		EventScheduler scheduler = new EventScheduler();
 		scheduler.addEvent(ZONES_INTERVAL, () -> {this.onThink((index + 1) % ZONES_QUANTITY); });
 		ArrayList<Zones> zone = zonesMatrix.getOrDefault(index, new ArrayList<Zones>());
-		System.out.println("Verificando index " + index);
 		for(Zones zoneObject : zone) {
 			zoneObject.syncSemaforos();
 		}

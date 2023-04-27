@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import Controllers.SemaforoInterface;
 import Exceptions.SemaforoNotFound;
 import Models.Location;
-import Models.SemaforoEntity;
 
 public class SemaforosDAO {
 

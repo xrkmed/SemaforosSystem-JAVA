@@ -51,6 +51,7 @@ public class Zones {
 		ArrayList<SemaforoInterface> semaforosList = getSemaforosList();
 		for(SemaforoInterface object : semaforosList) {
 			object.sync();
+			System.out.println("Semaforo de id " + object.getId() + " esta em " + object.semaforoStatusChange() + "% para trocar de status.");
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package Exceptions;
 
 import Controllers.SemaforoInterface;
-import Models.SemaforoEntity;
 
 public class SemaforoNotFound extends RuntimeException {
 	

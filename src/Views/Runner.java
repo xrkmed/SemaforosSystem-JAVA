@@ -4,7 +4,6 @@ import Controllers.SemaforoInterface;
 import Database.SemaforoDatabase;
 import Models.AddressEntity;
 import Models.Location;
-import Models.SemaforoEntity;
 import Models.Zones;
 import Models.ZonesUpdate;
 
