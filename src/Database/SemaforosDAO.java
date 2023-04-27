@@ -16,6 +16,8 @@ public class SemaforosDAO {
 	//Singleton Class
 	private static SemaforosDAO _instance = null;
 	
+
+	// Singleton Class Constructor
 	public SemaforosDAO getInstance() {
 		if(_instance == null) {
 			_instance = new SemaforosDAO();
@@ -24,6 +26,8 @@ public class SemaforosDAO {
 		return _instance;
 	}
 	
+
+	// Desativar semaforo pelo id 
 	public boolean disableSemaforoById(int id) throws SemaforoNotFound {
 		try {
 			SemaforoInterface object = semaforos.stream().filter(semaforoObject -> semaforoObject.getId() == id).collect(Collectors.toList()).get(0);
@@ -34,15 +38,18 @@ public class SemaforosDAO {
 		}
 	}
 	
+	// Ver quantidade total de semaforos ativos
 	public int getSemaforosCount() {
 		return semaforos.size();
 	}
 	
+	// Adicionar semaforo ao banco de dados DAO
 	public SemaforoInterface addSemaforo(SemaforoInterface t) {
 		semaforos.add(t);
 		return t;
 	}
 	
+	// Obter semaforo pelo id e localizacao
 	public SemaforoInterface getSemaforo(BiPredicate<? super Integer, ? super Location> query) throws SemaforoNotFound {
 		for(SemaforoInterface semaforoObject : semaforos) {
 			if(query.test(semaforoObject.getId(), semaforoObject.getLocation())) {
@@ -53,6 +60,7 @@ public class SemaforosDAO {
 		throw new SemaforoNotFound();
 	}
 
+	// Obter semaforo pelo id
 	public SemaforoInterface getSemaforoById(int id) throws SemaforoNotFound {
 		try {
 			SemaforoInterface object = semaforos.stream().filter(semaforoObject -> semaforoObject.getId() == id).collect(Collectors.toList()).get(0);
@@ -62,6 +70,7 @@ public class SemaforosDAO {
 		}
 	}
 	
+	// Obter semaforo pela localizacao
 	public SemaforoInterface getSemaforos(Location loc) {
 		try {
 			SemaforoInterface object = semaforos.stream().filter(semaforoObject -> semaforoObject.getLocation() == loc).collect(Collectors.toList()).get(0);

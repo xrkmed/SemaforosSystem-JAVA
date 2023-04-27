@@ -9,15 +9,18 @@ public class SemaforoDatabase {
 	
 	public static SemaforosDAO instance = new SemaforosDAO().getInstance();
 	
+	//Registrar o semaforo no banco de dados DAO
 	public SemaforoInterface registerSemaforo(SemaforoInterface t) {
 		return instance.addSemaforo(t);		
 	}
 	
+	// Registrar o semaforo no banco de dados DAO
 	public SemaforoInterface registerSemaforo(Location loc) {
 		SemaforoInterface t = new SemaforoEntity(loc);
 		return instance.addSemaforo(t);
 	}
 	
+	// Atualizar o status do semaforo para desabilitado
 	public boolean desabilitarSemaforo(int id) {
 		try {
 			return instance.disableSemaforoById(id);

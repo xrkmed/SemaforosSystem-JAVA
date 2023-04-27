@@ -15,31 +15,40 @@ public class SemaforoEntity implements SemaforoInterface {
 	private SemaforoStatusInterface semaforoStatus;
 	
 	private boolean isRunning;
+
+	private final long DELAY_CONFIG_SEMAFORO_ABERTO_PARA_ATENCAO = 20000;
+	private final long DELAY_CONFIG_SEMAFORO_ATENCAO_PARA_FECHADO = 20000;
+	private final long DELAY_CONFIG_SEMAFORO_FECHADO_PARA_ABERTO = 20000;
 	
-	
+	// Construtor
 	public SemaforoEntity() {
 		this.semaforoStatus = new SemaforoStatus();
 		this.semaforoId = new SemaforosDAO().getInstance().getSemaforosCount()+1;
 		this.isRunning = false;
 	}
 	
+	// Construtor
 	public SemaforoEntity(Location semaforoLocation) {
 		this();
 		this.semaforoLocation = semaforoLocation;
 	}
 	
+	// Retorna o id do semaforo
 	public int getId() {
 		return this.semaforoId;
 	}
 	
+	// Retorna a localizacao do semaforo
 	public Location getLocation() {
 		return semaforoLocation;
 	}
 	
+	// desabilita o semaforo
 	public void disable() {
 		semaforoStatus.disableSemaforo();
 	}
 	
+	// inicia o semaforo
 	public void start() {
 		if(isRunning)
 			return;
@@ -49,6 +58,7 @@ public class SemaforoEntity implements SemaforoInterface {
 		isRunning = true;
 	}
 	
+	// atualiza o status do semaforo (executar apenas uma vez que o sistema automaticamente faz a verificacao em intervalos de tempos)
 	public void updateStatus() {
 		String oldStatus = semaforoStatus.getActualStatusString();
 		String oldCor = semaforoStatus.getCor();
@@ -58,7 +68,7 @@ public class SemaforoEntity implements SemaforoInterface {
 			case SEMAFORO_STATUS_LOADING: case SEMAFORO_STATUS_FECHADO: {
 				semaforoStatus.updateStatus(SemaforosStatus_t.SEMAFORO_STATUS_ABERTO);
 				EventScheduler nextInterval = new EventScheduler();
-				nextInterval.addEvent(20000,	() -> {this.updateStatus();}); // 20 segundos para atualizar de aberto para atencao
+				nextInterval.addEvent(DELAY_CONFIG_SEMAFORO_ABERTO_PARA_ATENCAO,	() -> {this.updateStatus();}); // 20 segundos para atualizar de aberto para atencao
 				
 				break;
 			}
@@ -66,7 +76,7 @@ public class SemaforoEntity implements SemaforoInterface {
 			case SEMAFORO_STATUS_ABERTO: {
 				semaforoStatus.updateStatus(SemaforosStatus_t.SEMAFORO_STATUS_ATENCAO);
 				EventScheduler nextInterval = new EventScheduler();
-				nextInterval.addEvent(5000,	() -> {this.updateStatus();}); // 5 segundos para atualizar de atencao para fechado
+				nextInterval.addEvent(DELAY_CONFIG_SEMAFORO_ATENCAO_PARA_FECHADO,	() -> {this.updateStatus();}); // 5 segundos para atualizar de atencao para fechado
 				
 				break;
 			}
@@ -75,7 +85,7 @@ public class SemaforoEntity implements SemaforoInterface {
 				semaforoStatus.updateStatus(SemaforosStatus_t.SEMAFORO_STATUS_FECHADO);
 				
 				EventScheduler nextInterval = new EventScheduler();
-				nextInterval.addEvent(20000,	() -> {this.updateStatus();}); // 20 segundos para atualizar de fechado para aberto
+				nextInterval.addEvent(DELAY_CONFIG_SEMAFORO_FECHADO_PARA_ABERTO,	() -> {this.updateStatus();}); // 20 segundos para atualizar de fechado para aberto
 				break;
 			}
 			

@@ -19,7 +19,12 @@ public class Zones {
 	public void addLocation(Location loc) {
 		zonesLocations.add(loc);
 	}
+
+	public int getZoneId(){
+		return zoneId;
+	}
 	
+	// Retorna todos os semaforos daquela zona, neste sistema de semaforos, cada zona possui varios semaforos, bastante utilizado este sistema na vida real para garantir um fluxo continuo de uma via!
 	public ArrayList<SemaforoInterface> getSemaforosList(){
 		ArrayList<SemaforoInterface> result = new ArrayList<>();
 		
@@ -32,6 +37,7 @@ public class Zones {
 		return result;
 	}
 	
+	// Usado apenas na inicializacao do sistema para iniciar todos os semaforos.
 	public void syncSemaforos() {
 		ArrayList<SemaforoInterface> semaforosList = getSemaforosList();
 		for(SemaforoInterface object : semaforosList) {

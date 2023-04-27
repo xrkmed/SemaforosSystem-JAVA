@@ -13,7 +13,6 @@ public class SemaforoStatus implements SemaforoStatusInterface {
 	}
 	
 	private SemaforosStatus_t semaforoStatus;
-	private long lastUpdated = System.currentTimeMillis() % 1000;
 	
 	public SemaforoStatus() {
 		this.semaforoStatus = SemaforosStatus_t.SEMAFORO_STATUS_LOADING;
@@ -23,18 +22,22 @@ public class SemaforoStatus implements SemaforoStatusInterface {
 		this.semaforoStatus = type;
 	}
 	
+	// Desativa o semaforo (usado para madrugadas obs: funcao de madrugada ainda nao implementada)
 	public void disableSemaforo() {
 		semaforoStatus = SemaforosStatus_t.SEMAFORO_STATUS_DESATIVADO;
 	}
 	
+	// Atualiza o status do semaforo
 	public void updateStatus(SemaforosStatus_t newStatus) {
 		semaforoStatus = newStatus;
 	}
 	
+	// Retorna o status do semaforo
 	public SemaforosStatus_t getStatus() {
 		return semaforoStatus;
 	}
-	
+
+	// Retorna o status do semaforo em string
 	public String getActualStatusString() {
 		switch(semaforoStatus) {
 			case SEMAFORO_STATUS_ABERTO: {
@@ -54,6 +57,7 @@ public class SemaforoStatus implements SemaforoStatusInterface {
 		}
 	}
 	
+	// Retorna a cor do semaforo
 	public String getCor() {
 		switch(semaforoStatus) {
 		case SEMAFORO_STATUS_ABERTO: {
