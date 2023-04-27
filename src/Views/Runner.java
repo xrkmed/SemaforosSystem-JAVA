@@ -6,6 +6,7 @@ import Models.AddressEntity;
 import Models.Location;
 import Models.SemaforoEntity;
 import Models.Zones;
+import Models.ZonesUpdate;
 
 public class Runner {
 	
@@ -16,8 +17,14 @@ public class Runner {
 		//Database de inicializacao (diferente do DAO)
 		SemaforoDatabase semaforoDb = new SemaforoDatabase();
 		
+		//Singleton class
+		ZonesUpdate zoneVector = new ZonesUpdate().getInstance();
+		
 		//Criar uma zona (regiao)
 		Zones zoneType = new Zones();
+		
+		//adicionar essa zona no vetor de verificacao constante
+		zoneVector.addZoneMatrix(zoneType);
 		
 		//Criando as localizacoes
 		Location semaforoLocalizacao1 = new Location(new AddressEntity("R. Dos palmares", "Semaforo localizado na frente do Bazar Martins", 88130000));
@@ -31,8 +38,8 @@ public class Runner {
 		SemaforoInterface semaforo1 = semaforoDb.registerSemaforo(semaforoLocalizacao1);
 		SemaforoInterface semaforo2 = semaforoDb.registerSemaforo(semaforoLocalizacao2);
 		
-		//Ligar os semaforos
-		zoneType.syncSemaforos();
+		//Ligar os semaforos (Execute esta funcion apenas uma vez)
+		zoneVector.onThink(0);
 		
 		
 		//O sistema funciona por regioes, em uma determinada regiao (por exemplo uma via gigante, todos os semaforos sao ligados de uma vez para facilitar o transito continuo)
